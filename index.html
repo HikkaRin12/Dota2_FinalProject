@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dota 2 — Heroes Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="Dota 2 — Main Page">
+        <span class="logo-dota">DOTA</span>
+        <span class="logo-number">2</span>
+        <span class="logo-subtitle">HEROES</span>
+      </a>
+      <nav class="header-nav" aria-label="Additional Navigation">
+        <span class="hero-count-badge">
+          <span id="heroCountDisplay">0</span> heroes
+        </span>
+        <button class="btn-favorites-toggle" id="btnFavoritesToggle" aria-pressed="false">
+          <svg class="icon-star" viewBox="0 0 24 24" aria-hidden="true">
+            <polygon
+              points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+          </svg>
+          <span class="favorites-count" id="favoritesCount">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="main-content" id="main" role="main">
+    <section class="filters-section" aria-label="Hero Filters">
+      <div class="filters-inner">
+
+        <div class="search-wrapper" role="search">
+          <label for="searchInput" class="visually-hidden">Search hero by name</label>
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search hero..." autocomplete="off"
+            spellcheck="false" maxlength="40" aria-label="Enter hero name" />
+          <button class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+            ✕
+          </button>
+        </div>
+
+        <div class="attribute-filters" role="group" aria-label="Filter by primary attribute ">
+          <button class="attr-btn attr-btn--all active" data-attr="all" aria-pressed="true">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2L2 7v5c0 5.55 4.45 10 10 10s10-4.45 10-10V7l-10-5z" />
+            </svg>
+          </button>
+
+          <button class="attr-btn attr-btn--str" data-attr="str" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14.5 2.5l7 7-1.5 1.5-2-2-9 9 .5 2.5-3.5 3.5-2-2 3.5-3.5 2.5.5 9-9-2-2z" />
+            </svg>
+            Strength
+          </button>
+
+          <button class="attr-btn attr-btn--agi" data-attr="agi" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" />
+            </svg>
+            Ловкость
+          </button>
+
+          <button class="attr-btn attr-btn--int" data-attr="int" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
+            </svg>
+            Intellect
+          </button>
+
+          <button class="attr-btn attr-btn--uni" data-attr="all_hero" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon
+                points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+            </svg>
+            Universal
+          </button>
+        </div>
+        <div class="sort-wrapper">
+          <label for="sortSelect" class="sort-label">Sort by:</label>
+          <select id="sortSelect" class="sort-select" aria-label="Sort heroes by">
+            <option value="localized_name">ByName</option>
+            <option value="base_attack_max">By Attack</option>
+            <option value="move_speed">By Speed</option>
+            <option value="base_hp">By HP</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="results-bar" aria-live="polite" aria-atomic="true">
+        <span id="resultsInfo" class="results-info">Loading heroes...</span>
+      </div>
+    </section>
+
+    <section class="heroes-section" aria-label="Hero List">
+
+      <div class="heroes-grid" id="heroesGrid" role="list">
+
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+      </div>
+
+
+      <div class="empty-state" id="emptyState" hidden role="status">
+        <div class="empty-icon">⚔</div>
+        <p class="empty-title">Heroes not found</p>
+        <p class="empty-subtitle">Try changing the filters or search query</p>
+        <button class="btn-reset-filters" id="btnResetFilters">
+          Reset Filters
+        </button>
+      </div>
+    </section>
+  </main>
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalHeroName" hidden>
+    <div class="modal-window">
+      <button class="modal-close" id="modalClose" aria-label="Close Hero Details">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      <div class="modal-hero-banner" id="modalBanner">
+        <div class="modal-banner-overlay"></div>
+        <img class="modal-hero-img" id="modalHeroImg" src="" alt="" />
+      </div>
+
+
+      <div class="modal-body">
+        <div class="modal-title-row">
+          <div>
+            <p class="modal-attr-badge" id="modalAttrBadge"></p>
+            <h2 class="modal-hero-name" id="modalHeroName"></h2>
+
+            <button class="modal-fav-btn" id="modalFavBtn" aria-label="Add to favorites">
+              <svg class="icon-star" viewBox="0 0 24 24">
+                <polygon
+                  points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+              </svg>
+            </button>
+          </div>
+          <div class="modal-stats" id="modalStats"></div>
+          <div class="modal-roles" id="modalRoles"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <p>
+          Data provided by
+          <a href="https://www.opendota.com" target="_blank" rel="noopener noreferrer">OpenDota API</a>
+        </p>
+        <p class="footer-copy">
+          Just a fan-made project
+          <a href="https://github.com/HikkaRin12" target="_blank" rel="noopener noreferrer">Adil Baizhanov</a>
+          © 2026
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+
+</html>
