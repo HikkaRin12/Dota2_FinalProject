@@ -1,4 +1,4 @@
-import { fetchHeroes, getHeroImageUrl, getHeroIconUrl } from "./api.js";
+import { fetchHeroes, getHeroImageUrl } from "./api.js";
 import {
   getFavorites,
   getFavoritesCount,
@@ -12,6 +12,7 @@ const searchClear = document.getElementById("searchClear");
 const emptyState = document.getElementById("emptyState");
 const resultsInfo = document.getElementById("resultsInfo");
 const heroCountDisplay = document.getElementById("heroCountDisplay");
+const heroCountBadge = document.getElementById("heroCountBadge");
 const favoritesCount = document.getElementById("favoritesCount");
 const btnFavoritesToggle = document.getElementById("btnFavoritesToggle");
 const btnResetFilters = document.getElementById("btnResetFilters");
@@ -26,9 +27,15 @@ const modalRoles = document.getElementById("modalRoles");
 const modalFavBtn = document.getElementById("modalFavBtn");
 const modalBanner = document.getElementById("modalBanner");
 const toast = document.getElementById("toast");
-const logoLink = document.querySelector(".logo");
-
 const attrButtons = document.querySelectorAll(".attr-btn");
+
+// Элементы навигации лендинг ↔ герои
+const landingSection = document.getElementById("landingSection");
+const heroesSection = document.getElementById("heroesSection");
+const btnExploreHeroes = document.getElementById("btnExploreHeroes");
+const btnExploreHeroes2 = document.getElementById("btnExploreHeroes2");
+const btnBackHome = document.getElementById("btnBackHome");
+const logoLink = document.getElementById("logoLink");
 
 const state = {
   allHeroes: [],
@@ -37,6 +44,8 @@ const state = {
   sortBy: "localized_name",
   showOnlyFavorites: false,
   currentHeroId: null,
+  heroesLoaded: false, // флаг — загружены ли герои
+  currentPage: "landing", // "landing" | "heroes"
 };
 
 const ATTR_LABELS = {
@@ -53,6 +62,37 @@ const ATTR_CSS_MAP = {
   int: "int",
   all_hero: "all_hero",
   all: "all_hero",
+};
+
+const showHeroesPage = () => {
+  landingSection.hidden = true;
+  heroesSection.hidden = false;
+
+  btnBackHome.hidden = false;
+  heroCountBadge.hidden = false;
+  btnFavoritesToggle.hidden = false;
+
+  state.currentPage = "heroes";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (!state.heroesLoaded) {
+    loadHeroes();
+  }
+};
+
+const showLandingPage = () => {
+  heroesSection.hidden = true;
+  landingSection.hidden = false;
+
+  btnBackHome.hidden = true;
+  heroCountBadge.hidden = true;
+  btnFavoritesToggle.hidden = true;
+
+  if (!modalOverlay.hidden) closeModal(false);
+
+  state.currentPage = "landing";
+  window.location.hash = "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 const createHeroCardHTML = (hero) => {
@@ -79,42 +119,30 @@ const createHeroCardHTML = (hero) => {
       role="listitem"
       data-hero-id="${id}"
       tabindex="0"
-      aria-label="Герой ${localized_name}"
+      aria-label="Hero ${localized_name}"
     >
-      <!-- Обёртка изображения -->
       <div class="hero-card__img-wrapper">
         <img
           class="hero-card__img"
           src="${imageUrl}"
           alt="${localized_name}"
           loading="lazy"
-          onerror="this.src='https://via.placeholder.com/256x144/111520/8a9bb0?text=${encodeURIComponent(localized_name)}'"
+          onerror="this.src='https://placehold.co/256x144/111520/8a9bb0?text=${encodeURIComponent(localized_name)}'"
         />
-
-        <!-- Бейдж атрибута -->
-        <span
-          class="hero-card__attr-badge hero-card__attr-badge--${attrClass}"
-          title="${attrLabel}"
-          aria-label="Атрибут: ${attrLabel}"
-        >
+        <span class="hero-card__attr-badge hero-card__attr-badge--${attrClass}" title="${attrLabel}" aria-label="Attribute: ${attrLabel}">
           ${["all_hero", "all"].includes(primary_attr) ? "✦" : primary_attr.toUpperCase()}
         </span>
-
-        <!-- Кнопка "Favorite" (звезда) -->
         <button
           class="hero-card__fav-btn ${isFav ? "is-favorite" : ""}"
           data-fav-id="${id}"
           aria-label="${isFav ? "Remove from favorites" : "Add to favorites"}"
           aria-pressed="${isFav}"
-          title="${isFav ? "Remove from favorites" : "Add to favorites"}"
         >
           <svg class="icon-star" viewBox="0 0 24 24">
-            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
           </svg>
         </button>
       </div>
-
-      <!-- Имя и мини-статы -->
       <div class="hero-card__body">
         <p class="hero-card__name">${localized_name}</p>
         <div class="hero-card__mini-stats">
@@ -137,8 +165,7 @@ const createHeroCardHTML = (hero) => {
 };
 
 const renderHeroes = (heroes) => {
-  const skeletons = heroesGrid.querySelectorAll(".skeleton-card");
-  skeletons.forEach((s) => s.remove());
+  heroesGrid.querySelectorAll(".skeleton-card").forEach((s) => s.remove());
 
   if (heroes.length === 0) {
     heroesGrid.innerHTML = "";
@@ -150,13 +177,10 @@ const renderHeroes = (heroes) => {
 
   emptyState.hidden = true;
   heroesGrid.hidden = false;
-
   heroesGrid.innerHTML = heroes.map(createHeroCardHTML).join("");
 
-  const total = state.allHeroes.length;
-  const showing = heroes.length;
   const filterStr = state.showOnlyFavorites ? " (favorites)" : "";
-  resultsInfo.textContent = `Shown ${showing} of ${total} heroes${filterStr}`;
+  resultsInfo.textContent = `Showing ${heroes.length} of ${state.allHeroes.length} heroes${filterStr}`;
 };
 
 const updateFavoritesUI = () => {
@@ -191,11 +215,7 @@ const applyFiltersAndRender = () => {
 
   result = [...result].sort((a, b) => {
     const field = state.sortBy;
-
-    if (typeof a[field] === "string") {
-      return a[field].localeCompare(b[field]);
-    }
-
+    if (typeof a[field] === "string") return a[field].localeCompare(b[field]);
     return (b[field] ?? 0) - (a[field] ?? 0);
   });
 
@@ -205,20 +225,18 @@ const applyFiltersAndRender = () => {
 const validateSearchInput = (value) => {
   const FORBIDDEN_CHARS = /[<>"'`;/\\{}]/g;
   if (FORBIDDEN_CHARS.test(value)) {
-    const sanitized = value.replace(FORBIDDEN_CHARS, "");
     return {
       isValid: false,
-      sanitized,
-      error: "Некоторые символы недопустимы и были удалены",
+      sanitized: value.replace(FORBIDDEN_CHARS, ""),
+      error: "Some characters are not allowed and were removed",
     };
   }
-
   return { isValid: true, sanitized: value, error: null };
 };
 
 const getRouteHeroId = () => {
   const hash = window.location.hash.slice(1);
-  const match = hash.match(/^hero[-\/](\d+)$/);
+  const match = hash.match(/^hero-(\d+)$/);
   return match ? Number(match[1]) : null;
 };
 
@@ -230,9 +248,7 @@ const updateRouteForHero = (heroId) => {
 };
 
 const clearRoute = () => {
-  if (window.location.hash) {
-    window.location.hash = "";
-  }
+  if (window.location.hash) window.location.hash = "";
 };
 
 const handleRoute = () => {
@@ -243,31 +259,32 @@ const handleRoute = () => {
     return;
   }
 
+  if (state.currentPage !== "heroes") {
+    showHeroesPage();
+    return;
+  }
+
   const heroExists = state.allHeroes.some((hero) => hero.id === heroId);
   if (!heroExists) {
     clearRoute();
     return;
   }
 
-  if (String(state.currentHeroId) === String(heroId) && !modalOverlay.hidden) {
+  if (String(state.currentHeroId) === String(heroId) && !modalOverlay.hidden)
     return;
-  }
 
   openModal(heroId, false);
 };
-
 let modalOpenerElement = null;
 
 const openModal = (heroId, updateHash = true) => {
   const id = Number(heroId);
   if (!Number.isInteger(id) || id <= 0) return;
 
-  const hero = state.allHeroes.find((hero) => hero.id === id);
+  const hero = state.allHeroes.find((h) => h.id === id);
   if (!hero) return;
 
-  if (updateHash) {
-    updateRouteForHero(id);
-  }
+  if (updateHash) updateRouteForHero(id);
 
   modalOpenerElement = document.activeElement;
   state.currentHeroId = id;
@@ -358,27 +375,20 @@ const closeModal = (updateHash = true) => {
   state.currentHeroId = null;
   modalOpenerElement?.focus();
   modalOpenerElement = null;
-
-  if (updateHash) {
-    clearRoute();
-  }
+  if (updateHash) clearRoute();
 };
 
 let toastTimer = null;
 
 const showToast = (message, type = "add") => {
   if (toastTimer) clearTimeout(toastTimer);
-
   toast.textContent = message;
   toast.className = `toast toast--${type} toast--visible`;
-
-  toastTimer = setTimeout(() => {
-    toast.classList.remove("toast--visible");
-  }, 2500);
+  toastTimer = setTimeout(() => toast.classList.remove("toast--visible"), 2500);
 };
+
 const handleFavoriteToggle = (heroId, btnElement) => {
   const { isNowFavorite, success } = toggleFavorite(heroId);
-
   if (!success) {
     showToast("Can't add to favorites.", "error");
     return;
@@ -403,34 +413,70 @@ const handleFavoriteToggle = (heroId, btnElement) => {
     cardFavBtn.classList.toggle("is-favorite", isNowFavorite);
   }
 
-  if (isNowFavorite) {
-    showToast(`★ ${heroName} added to favorites`, "add");
-  } else {
-    showToast(`${heroName} removed from favorites`, "remove");
-  }
+  showToast(
+    isNowFavorite
+      ? `★ ${heroName} added to favorites`
+      : `${heroName} removed from favorites`,
+    isNowFavorite ? "add" : "remove",
+  );
 
   updateFavoritesUI();
+  if (state.showOnlyFavorites) applyFiltersAndRender();
+};
 
-  if (state.showOnlyFavorites) {
+const loadHeroes = async () => {
+  try {
+    resultsInfo.textContent = "Loading data...";
+    const heroes = await fetchHeroes();
+
+    state.allHeroes = heroes.map((hero) => ({
+      ...hero,
+      primary_attr:
+        hero.primary_attr === "all" ? "all_hero" : hero.primary_attr,
+    }));
+
+    state.heroesLoaded = true;
+    updateHeroCount();
     applyFiltersAndRender();
+    handleRoute();
+
+    console.info("[App] Heroes loaded successfully.");
+  } catch (error) {
+    heroesGrid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1/-1;">
+        <div class="empty-icon">⚠</div>
+        <p class="empty-title">Failed to load heroes</p>
+        <p class="empty-subtitle">${error.message}</p>
+        <button onclick="window.location.reload()">Try again</button>
+      </div>
+    `;
+    resultsInfo.textContent = "Load error";
+    showToast("Failed to connect to API", "error");
   }
 };
 
 const setupEventListeners = () => {
+  btnExploreHeroes?.addEventListener("click", showHeroesPage);
+  btnExploreHeroes2?.addEventListener("click", showHeroesPage);
+
+  btnBackHome?.addEventListener("click", showLandingPage);
+  logoLink?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (state.currentPage === "heroes") {
+      showLandingPage();
+    }
+  });
+
   searchInput.addEventListener("input", (event) => {
-    const rawValue = event.target.value;
-
-    const { isValid, sanitized, error } = validateSearchInput(rawValue);
-
+    const { isValid, sanitized, error } = validateSearchInput(
+      event.target.value,
+    );
     if (!isValid) {
       searchInput.value = sanitized;
       showToast(error, "error");
     }
-
     state.searchQuery = sanitized;
-
     searchClear.hidden = sanitized.length === 0;
-
     applyFiltersAndRender();
   });
 
@@ -442,26 +488,16 @@ const setupEventListeners = () => {
     applyFiltersAndRender();
   });
 
-  logoLink?.addEventListener("click", (event) => {
-    event.preventDefault();
-    clearRoute();
-    if (!modalOverlay.hidden) closeModal(false);
-  });
-
   attrButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const selectedAttr = btn.dataset.attr;
-
       if (state.activeAttr === selectedAttr) return;
-
       state.activeAttr = selectedAttr;
-
       attrButtons.forEach((b) => {
         const isActive = b.dataset.attr === selectedAttr;
         b.classList.toggle("active", isActive);
         b.setAttribute("aria-pressed", isActive);
       });
-
       applyFiltersAndRender();
     });
   });
@@ -471,20 +507,18 @@ const setupEventListeners = () => {
     updateFavoritesUI();
     applyFiltersAndRender();
   });
+
   btnResetFilters.addEventListener("click", () => {
     state.activeAttr = "all";
     state.searchQuery = "";
     state.showOnlyFavorites = false;
-
     searchInput.value = "";
     searchClear.hidden = true;
-
     attrButtons.forEach((b) => {
       const isAll = b.dataset.attr === "all";
       b.classList.toggle("active", isAll);
       b.setAttribute("aria-pressed", isAll);
     });
-
     updateFavoritesUI();
     applyFiltersAndRender();
   });
@@ -497,17 +531,12 @@ const setupEventListeners = () => {
   heroesGrid.addEventListener("click", (event) => {
     const favBtn = event.target.closest(".hero-card__fav-btn");
     if (favBtn) {
-      event.stopPropagation(); // Do not trigger card click
-      const heroId = Number(favBtn.dataset.favId);
-      handleFavoriteToggle(heroId, favBtn);
+      event.stopPropagation();
+      handleFavoriteToggle(Number(favBtn.dataset.favId), favBtn);
       return;
     }
-
     const heroCard = event.target.closest(".hero-card");
-    if (heroCard) {
-      const heroId = heroCard.dataset.heroId;
-      openModal(heroId);
-    }
+    if (heroCard) openModal(heroCard.dataset.heroId);
   });
 
   heroesGrid.addEventListener("keydown", (event) => {
@@ -524,56 +553,27 @@ const setupEventListeners = () => {
     if (state.currentHeroId === null) return;
     handleFavoriteToggle(state.currentHeroId, modalFavBtn);
   });
-
   modalClose.addEventListener("click", closeModal);
-
   modalOverlay.addEventListener("click", (event) => {
     if (event.target === modalOverlay) closeModal();
   });
 
-  window.addEventListener("hashchange", handleRoute);
-
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !modalOverlay.hidden) {
-      closeModal();
-    }
+    if (event.key === "Escape" && !modalOverlay.hidden) closeModal();
   });
+
+  window.addEventListener("hashchange", handleRoute);
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   console.info("[App] Initializing application...");
-
   setupEventListeners();
-
   updateFavoritesUI();
 
-  try {
-    resultsInfo.textContent = "Loading data...";
+  landingSection.hidden = false;
+  heroesSection.hidden = true;
 
-    const heroes = await fetchHeroes();
-
-    state.allHeroes = heroes.map((hero) => ({
-      ...hero,
-      primary_attr:
-        hero.primary_attr === "all" ? "all_hero" : hero.primary_attr,
-    }));
-
-    updateHeroCount();
-
-    applyFiltersAndRender();
-    handleRoute();
-
-    console.info("[App] Application initialized successfully.");
-  } catch (error) {
-    heroesGrid.innerHTML = `
-      <div class="empty-state" style="grid-column: 1/-1;">
-        <div class="empty-icon">⚠</div>
-        <p class="empty-title">Failed to load heroes</p>
-        <p class="empty-subtitle">${error.message}</p>
-        <button onclick="window.location.reload()">Try again</button>
-      </div>
-    `;
-    resultsInfo.textContent = "Load error";
-    showToast("Failed to connect to API", "error");
+  if (getRouteHeroId() !== null) {
+    showHeroesPage();
   }
 });
