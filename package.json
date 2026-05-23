@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "description": "Dota 2 heroes project using OpenDota API",
+  "usedApis": [
+    "OpenDota API"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",

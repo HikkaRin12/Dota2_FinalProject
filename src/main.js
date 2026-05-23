@@ -28,8 +28,6 @@ const modalFavBtn = document.getElementById("modalFavBtn");
 const modalBanner = document.getElementById("modalBanner");
 const toast = document.getElementById("toast");
 const attrButtons = document.querySelectorAll(".attr-btn");
-
-// Элементы навигации лендинг ↔ герои
 const landingSection = document.getElementById("landingSection");
 const heroesSection = document.getElementById("heroesSection");
 const btnExploreHeroes = document.getElementById("btnExploreHeroes");
@@ -44,8 +42,8 @@ const state = {
   sortBy: "localized_name",
   showOnlyFavorites: false,
   currentHeroId: null,
-  heroesLoaded: false, // флаг — загружены ли герои
-  currentPage: "landing", // "landing" | "heroes"
+  heroesLoaded: false, 
+  currentPage: "landing",
 };
 
 const ATTR_LABELS = {
@@ -466,7 +464,7 @@ const setupEventListeners = () => {
       showLandingPage();
     }
   });
-
+  
   searchInput.addEventListener("input", (event) => {
     const { isValid, sanitized, error } = validateSearchInput(
       event.target.value,
