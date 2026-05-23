@@ -1,296 +1,338 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dota 2 — Heroes Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./src/style.css" />
-  </head>
-  <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="site-header" role="banner">
-      <div class="header-inner">
-        <a href="#" class="logo" id="logoLink" aria-label="Dota 2 — Main Page">
-          <span class="logo-dota">DOTA</span>
-          <span class="logo-number">2</span>
-          <span class="logo-subtitle">HEROES</span>
-        </a>
-        <nav class="header-nav" aria-label="Additional Navigation">
-          <button class="btn-back-home" id="btnBackHome" hidden>← Home</button>
-          <span class="hero-count-badge" id="heroCountBadge" hidden>
-            <span id="heroCountDisplay">0</span> heroes
-          </span>
-          <button class="btn-favorites-toggle" id="btnFavoritesToggle" aria-pressed="false" hidden>
-            <svg class="icon-star" viewBox="0 0 24 24" aria-hidden="true">
-              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-            </svg>
-            Favorites
-            <span class="favorites-count" id="favoritesCount">0</span>
-          </button>
-        </nav>
-      </div>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dota 2 — Heroes Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
 
-  
-    <section class="landing" id="landingSection" aria-label="About Dota 2">
-      <div class="landing__bg-grid" aria-hidden="true"></div>
-      <div class="landing__orb landing__orb--gold" aria-hidden="true"></div>
-      <div class="landing__orb landing__orb--blue" aria-hidden="true"></div>
-      <div class="landing__orb landing__orb--red" aria-hidden="true"></div>
+<body>
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="#" class="logo" id="logoLink" aria-label="Dota 2 — Main Page">
+        <span class="logo-dota">DOTA</span>
+        <span class="logo-number">2</span>
+        <span class="logo-subtitle">HEROES</span>
+      </a>
+      <nav class="header-nav" aria-label="Additional Navigation">
+        <button class="btn-back-home" id="btnBackHome" hidden>← Home</button>
+        <span class="hero-count-badge" id="heroCountBadge" hidden>
+          <span id="heroCountDisplay">0</span> heroes
+        </span>
+        <button class="btn-favorites-toggle" id="btnFavoritesToggle" aria-pressed="false" hidden>
+          <svg class="icon-star" viewBox="0 0 24 24" aria-hidden="true">
+            <polygon
+              points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+          </svg>
+          Favorites
+          <span class="favorites-count" id="favoritesCount">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <section class="landing" id="landingSection" aria-label="About Dota 2">
+    <div class="landing__bg-grid" aria-hidden="true"></div>
+    <div class="landing__orb landing__orb--gold" aria-hidden="true"></div>
+    <div class="landing__orb landing__orb--blue" aria-hidden="true"></div>
+    <div class="landing__orb landing__orb--red" aria-hidden="true"></div>
 
-      <div class="landing__inner">
-
-        <div class="landing__hero">
-          <p class="landing__eyebrow">The Ancient awaits</p>
-          <h1 class="landing__title">
-            <span class="landing__title-line">BATTLE OF</span>
-            <span class="landing__title-line landing__title-line--accent">LEGENDS</span>
-          </h1>
-          <p class="landing__description">
-            Dota 2 is a multiplayer online battle arena game where two teams of five
-            heroes clash to destroy the enemy Ancient. Choose from over
-            <strong>120+ unique heroes</strong>, each with their own abilities,
-            roles and playstyle — from devastating strength carries to cunning
-            intelligence supports.
-          </p>
-          <div class="landing__actions">
-            <button class="btn-explore" id="btnExploreHeroes">
-              <span class="btn-explore__text">Explore Heroes</span>
-              <svg class="btn-explore__icon" viewBox="0 0 24 24" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"/>
-                <polyline points="12 5 19 12 12 19"/>
-              </svg>
-            </button>
-            <a href="https://www.dota2.com" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-              Official Site ↗
-            </a>
-          </div>
-        </div>
-
-        <div class="landing__stats" aria-label="Game statistics">
-          <div class="landing__stat">
-            <span class="landing__stat-value">120+</span>
-            <span class="landing__stat-label">Unique Heroes</span>
-          </div>
-          <div class="landing__stat-divider" aria-hidden="true"></div>
-          <div class="landing__stat">
-            <span class="landing__stat-value">4</span>
-            <span class="landing__stat-label">Attributes</span>
-          </div>
-          <div class="landing__stat-divider" aria-hidden="true"></div>
-          <div class="landing__stat">
-            <span class="landing__stat-value">5v5</span>
-            <span class="landing__stat-label">Team Battle</span>
-          </div>
-          <div class="landing__stat-divider" aria-hidden="true"></div>
-          <div class="landing__stat">
-            <span class="landing__stat-value">Free</span>
-            <span class="landing__stat-label">to Play</span>
-          </div>
-        </div>
-
-        <div class="landing__attrs" aria-label="Hero attributes">
-          <article class="attr-card attr-card--str">
-            <div class="attr-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M14.5 2.5l7 7-1.5 1.5-2-2-9 9 .5 2.5-3.5 3.5-2-2 3.5-3.5 2.5.5 9-9-2-2z"/></svg>
-            </div>
-            <h3 class="attr-card__name">Strength</h3>
-            <p class="attr-card__desc">Tanky frontliners with massive HP pools. They absorb damage and initiate fights — the backbone of every team.</p>
-            <span class="attr-card__badge">STR</span>
-          </article>
-          <article class="attr-card attr-card--agi">
-            <div class="attr-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/></svg>
-            </div>
-            <h3 class="attr-card__name">Agility</h3>
-            <p class="attr-card__desc">Swift carries with high attack speed and armor. They scale into late game as unstoppable physical damage dealers.</p>
-            <span class="attr-card__badge">AGI</span>
-          </article>
-          <article class="attr-card attr-card--int">
-            <div class="attr-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/></svg>
-            </div>
-            <h3 class="attr-card__name">Intelligence</h3>
-            <p class="attr-card__desc">Spellcasters and supports with large mana pools. They control fights with powerful abilities and crowd control.</p>
-            <span class="attr-card__badge">INT</span>
-          </article>
-          <article class="attr-card attr-card--uni">
-            <div class="attr-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-            </div>
-            <h3 class="attr-card__name">Universal</h3>
-            <p class="attr-card__desc">Versatile heroes who gain stats from all attributes equally. Flexible wildcards that adapt to any lineup.</p>
-            <span class="attr-card__badge">UNI</span>
-          </article>
-        </div>
-
-        <div class="landing__howto">
-          <h2 class="landing__section-title">How It Works</h2>
-          <div class="landing__steps">
-            <div class="landing__step">
-              <span class="landing__step-num">01</span>
-              <h3 class="landing__step-title">Pick Your Hero</h3>
-              <p class="landing__step-desc">Choose from 120+ heroes across four attribute classes, each with a unique set of abilities.</p>
-            </div>
-            <div class="landing__step">
-              <span class="landing__step-num">02</span>
-              <h3 class="landing__step-title">Form a Team</h3>
-              <p class="landing__step-desc">Team up with four allies. Balance your lineup with carries, supports, and initiators.</p>
-            </div>
-            <div class="landing__step">
-              <span class="landing__step-num">03</span>
-              <h3 class="landing__step-title">Destroy the Ancient</h3>
-              <p class="landing__step-desc">Push through lanes, destroy towers, and demolish the enemy Ancient to claim victory.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="landing__cta">
-          <p class="landing__cta-text">Ready to find your hero?</p>
-          <button class="btn-explore btn-explore--large" id="btnExploreHeroes2">
-            <span class="btn-explore__text">Browse All Heroes</span>
+    <div class="landing__inner">
+      <div class="landing__hero">
+        <p class="landing__eyebrow">DOTA 2</p>
+        <h1 class="landing__title">
+          <span class="landing__title-line">DEFENCE OF </span>
+          <span class="landing__title-line landing__title-line--accent">THE ANCIENTS</span>
+        </h1>
+        <p class="landing__description">
+          Дота 2 это командная игра в жанре MOBA, где две команды по пять
+          игроков сражаются за контроль над картой и уничтожение вражеского
+          сооружения — Древнего. Выбирайте из
+          <strong>120+ уникальных героев</strong>, каждый со своим стилем игры
+          и набором способностей. Сражайтесь в динамичных 5v5 матчах,
+          прокачивайте своего героя и координируйте действия с командой, чтобы
+          одержать победу!
+        </p>
+        <div class="landing__actions">
+          <button class="btn-explore" id="btnExploreHeroes">
+            <span class="btn-explore__text">Explore Heroes</span>
             <svg class="btn-explore__icon" viewBox="0 0 24 24" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"/>
-              <polyline points="12 5 19 12 12 19"/>
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
             </svg>
           </button>
+          <a href="https://www.dota2.com" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+            Official Site
+          </a>
         </div>
-
       </div>
 
-      <footer class="landing__footer" role="contentinfo">
+      <div class="landing__stats" aria-label="Game statistics">
+        <div class="landing__stat">
+          <span class="landing__stat-value">120+</span>
+          <span class="landing__stat-label">Unique Heroes</span>
+        </div>
+        <div class="landing__stat-divider" aria-hidden="true"></div>
+        <div class="landing__stat">
+          <span class="landing__stat-value">4</span>
+          <span class="landing__stat-label">Attributes</span>
+        </div>
+        <div class="landing__stat-divider" aria-hidden="true"></div>
+        <div class="landing__stat">
+          <span class="landing__stat-value">5v5</span>
+          <span class="landing__stat-label">Team Battle</span>
+        </div>
+        <div class="landing__stat-divider" aria-hidden="true"></div>
+        <div class="landing__stat">
+          <span class="landing__stat-value">Free</span>
+          <span class="landing__stat-label">to Play</span>
+        </div>
+      </div>
+
+      <div class="landing__attrs" aria-label="Hero attributes">
+        <article class="attr-card attr-card--str">
+          <div class="attr-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M14.5 2.5l7 7-1.5 1.5-2-2-9 9 .5 2.5-3.5 3.5-2-2 3.5-3.5 2.5.5 9-9-2-2z" />
+            </svg>
+          </div>
+          <h3 class="attr-card__name">Strength</h3>
+          <p class="attr-card__desc">
+            Tanky frontliners with massive HP pools. They absorb damage and
+            initiate fights — the backbone of every team.
+          </p>
+          <span class="attr-card__badge">STR</span>
+        </article>
+        <article class="attr-card attr-card--agi">
+          <div class="attr-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" />
+            </svg>
+          </div>
+          <h3 class="attr-card__name">Agility</h3>
+          <p class="attr-card__desc">
+            Swift carries with high attack speed and armor. They scale into
+            late game as unstoppable physical damage dealers.
+          </p>
+          <span class="attr-card__badge">AGI</span>
+        </article>
+        <article class="attr-card attr-card--int">
+          <div class="attr-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
+            </svg>
+          </div>
+          <h3 class="attr-card__name">Intelligence</h3>
+          <p class="attr-card__desc">
+            Spellcasters and supports with large mana pools. They control
+            fights with powerful abilities and crowd control.
+          </p>
+          <span class="attr-card__badge">INT</span>
+        </article>
+        <article class="attr-card attr-card--uni">
+          <div class="attr-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <polygon
+                points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+            </svg>
+          </div>
+          <h3 class="attr-card__name">Universal</h3>
+          <p class="attr-card__desc">
+            Versatile heroes who gain stats from all attributes equally.
+            Flexible wildcards that adapt to any lineup.
+          </p>
+          <span class="attr-card__badge">UNI</span>
+        </article>
+      </div>
+
+      <div class="landing__howto">
+        <h2 class="landing__section-title">How It Works</h2>
+        <div class="landing__steps">
+          <div class="landing__step">
+            <span class="landing__step-num">01</span>
+            <h3 class="landing__step-title">Pick Your Hero</h3>
+            <p class="landing__step-desc">
+              Choose from 120+ heroes across four attribute classes, each with
+              a unique set of abilities.
+            </p>
+          </div>
+          <div class="landing__step">
+            <span class="landing__step-num">02</span>
+            <h3 class="landing__step-title">Form a Team</h3>
+            <p class="landing__step-desc">
+              Team up with four allies. Balance your lineup with carries,
+              supports, and initiators.
+            </p>
+          </div>
+          <div class="landing__step">
+            <span class="landing__step-num">03</span>
+            <h3 class="landing__step-title">Destroy the Ancient</h3>
+            <p class="landing__step-desc">
+              Push through lanes, destroy towers, and demolish the enemy
+              Ancient to claim victory.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing__cta">
+        <p class="landing__cta-text">Ready to find your hero?</p>
+        <button class="btn-explore btn-explore--large" id="btnExploreHeroes2">
+          <span class="btn-explore__text">Browse All Heroes</span>
+          <svg class="btn-explore__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <footer class="landing__footer" role="contentinfo">
+      <p>
+        Data provided by
+        <a href="https://www.opendota.com" target="_blank" rel="noopener noreferrer">OpenDota API</a>
+        · Fan-made project by
+        <a href="https://github.com/HikkaRin12" target="_blank" rel="noopener noreferrer">Adil Baizhanov</a>
+        © 2026
+      </p>
+    </footer>
+  </section>
+  <main class="main-content" id="heroesSection" role="main" hidden>
+    <section class="filters-section" aria-label="Hero Filters">
+      <div class="filters-inner">
+        <div class="search-wrapper" role="search">
+          <label for="searchInput" class="visually-hidden">Search hero by name</label>
+          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search hero..." autocomplete="off"
+            spellcheck="false" maxlength="40" aria-label="Enter hero name" />
+          <button class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+            ✕
+          </button>
+        </div>
+        <div class="attribute-filters" role="group" aria-label="Filter by primary attribute">
+          <button class="attr-btn attr-btn--all active" data-attr="all" aria-pressed="true">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2L2 7v5c0 5.55 4.45 10 10 10s10-4.45 10-10V7l-10-5z" />
+            </svg>
+          </button>
+          <button class="attr-btn attr-btn--str" data-attr="str" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14.5 2.5l7 7-1.5 1.5-2-2-9 9 .5 2.5-3.5 3.5-2-2 3.5-3.5 2.5.5 9-9-2-2z" />
+            </svg>
+            Strength
+          </button>
+          <button class="attr-btn attr-btn--agi" data-attr="agi" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon points="13,2 3,14 12,14 11,22 21,10 12,10" />
+            </svg>
+            Agility
+          </button>
+          <button class="attr-btn attr-btn--int" data-attr="int" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
+            </svg>
+            Intelligence
+          </button>
+          <button class="attr-btn attr-btn--uni" data-attr="all_hero" aria-pressed="false">
+            <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <polygon
+                points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
+            </svg>
+            Universal
+          </button>
+        </div>
+        <div class="sort-wrapper">
+          <label for="sortSelect" class="sort-label">Sort by:</label>
+          <select id="sortSelect" class="sort-select" aria-label="Sort heroes by">
+            <option value="localized_name">By Name</option>
+            <option value="base_attack_max">By Attack</option>
+            <option value="move_speed">By Speed</option>
+            <option value="base_hp">By HP</option>
+          </select>
+        </div>
+      </div>
+      <div class="results-bar" aria-live="polite" aria-atomic="true">
+        <span id="resultsInfo" class="results-info">Loading heroes...</span>
+      </div>
+    </section>
+
+    <section class="heroes-section" aria-label="Hero List">
+      <div class="heroes-grid" id="heroesGrid" role="list">
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+        <div class="skeleton-card" aria-hidden="true"></div>
+      </div>
+      <div class="empty-state" id="emptyState" hidden role="status">
+        <div class="empty-icon">⚔</div>
+        <p class="empty-title">Heroes not found</p>
+        <p class="empty-subtitle">Try changing the filters or search query</p>
+        <button class="btn-reset-filters" id="btnResetFilters">
+          Reset Filters
+        </button>
+      </div>
+    </section>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="footer-inner">
         <p>
           Data provided by
           <a href="https://www.opendota.com" target="_blank" rel="noopener noreferrer">OpenDota API</a>
-          · Fan-made project by
+        </p>
+        <p class="footer-copy">
+         Fan project by
           <a href="https://github.com/HikkaRin12" target="_blank" rel="noopener noreferrer">Adil Baizhanov</a>
           © 2026
         </p>
-      </footer>
-    </section>
-    <main class="main-content" id="heroesSection" role="main" hidden>
-      <section class="filters-section" aria-label="Hero Filters">
-        <div class="filters-inner">
-          <div class="search-wrapper" role="search">
-            <label for="searchInput" class="visually-hidden">Search hero by name</label>
-            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"/>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </div>
+    </footer>
+  </main>
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalHeroName" hidden>
+    <div class="modal-window">
+      <button class="modal-close" id="modalClose" aria-label="Close Hero Details">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="modal-hero-banner" id="modalBanner">
+        <div class="modal-banner-overlay"></div>
+        <img class="modal-hero-img" id="modalHeroImg" src="" alt="" />
+      </div>
+      <div class="modal-body">
+        <div class="modal-title-row">
+          <div>
+            <p class="modal-attr-badge" id="modalAttrBadge"></p>
+            <h2 class="modal-hero-name" id="modalHeroName"></h2>
+          </div>
+          <button class="modal-fav-btn" id="modalFavBtn" aria-label="Add to favorites">
+            <svg class="icon-star" viewBox="0 0 24 24">
+              <polygon
+                points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
             </svg>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search hero..."
-              autocomplete="off" spellcheck="false" maxlength="40" aria-label="Enter hero name"/>
-            <button class="search-clear" id="searchClear" aria-label="Clear search" hidden>✕</button>
-          </div>
-          <div class="attribute-filters" role="group" aria-label="Filter by primary attribute">
-            <button class="attr-btn attr-btn--all active" data-attr="all" aria-pressed="true">
-              <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2L2 7v5c0 5.55 4.45 10 10 10s10-4.45 10-10V7l-10-5z"/>
-              </svg>
-            </button>
-            <button class="attr-btn attr-btn--str" data-attr="str" aria-pressed="false">
-              <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M14.5 2.5l7 7-1.5 1.5-2-2-9 9 .5 2.5-3.5 3.5-2-2 3.5-3.5 2.5.5 9-9-2-2z"/>
-              </svg>
-              Strength
-            </button>
-            <button class="attr-btn attr-btn--agi" data-attr="agi" aria-pressed="false">
-              <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <polygon points="13,2 3,14 12,14 11,22 21,10 12,10"/>
-              </svg>
-              Agility
-            </button>
-            <button class="attr-btn attr-btn--int" data-attr="int" aria-pressed="false">
-              <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 2a5 5 0 1 1 0 10A5 5 0 0 1 12 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z"/>
-              </svg>
-              Intelligence
-            </button>
-            <button class="attr-btn attr-btn--uni" data-attr="all_hero" aria-pressed="false">
-              <svg class="attr-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-              </svg>
-              Universal
-            </button>
-          </div>
-          <div class="sort-wrapper">
-            <label for="sortSelect" class="sort-label">Sort by:</label>
-            <select id="sortSelect" class="sort-select" aria-label="Sort heroes by">
-              <option value="localized_name">By Name</option>
-              <option value="base_attack_max">By Attack</option>
-              <option value="move_speed">By Speed</option>
-              <option value="base_hp">By HP</option>
-            </select>
-          </div>
+          </button>
         </div>
-        <div class="results-bar" aria-live="polite" aria-atomic="true">
-          <span id="resultsInfo" class="results-info">Loading heroes...</span>
-        </div>
-      </section>
-
-      <section class="heroes-section" aria-label="Hero List">
-        <div class="heroes-grid" id="heroesGrid" role="list">
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-          <div class="skeleton-card" aria-hidden="true"></div>
-        </div>
-        <div class="empty-state" id="emptyState" hidden role="status">
-          <div class="empty-icon">⚔</div>
-          <p class="empty-title">Heroes not found</p>
-          <p class="empty-subtitle">Try changing the filters or search query</p>
-          <button class="btn-reset-filters" id="btnResetFilters">Reset Filters</button>
-        </div>
-      </section>
-
-      <footer class="site-footer" role="contentinfo">
-        <div class="footer-inner">
-          <p>Data provided by <a href="https://www.opendota.com" target="_blank" rel="noopener noreferrer">OpenDota API</a></p>
-          <p class="footer-copy">Fan-made project by <a href="https://github.com/HikkaRin12" target="_blank" rel="noopener noreferrer">Adil Baizhanov</a> © 2026</p>
-        </div>
-      </footer>
-    </main>
-    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalHeroName" hidden>
-      <div class="modal-window">
-        <button class="modal-close" id="modalClose" aria-label="Close Hero Details">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-        <div class="modal-hero-banner" id="modalBanner">
-          <div class="modal-banner-overlay"></div>
-          <img class="modal-hero-img" id="modalHeroImg" src="" alt=""/>
-        </div>
-        <div class="modal-body">
-          <div class="modal-title-row">
-            <div>
-              <p class="modal-attr-badge" id="modalAttrBadge"></p>
-              <h2 class="modal-hero-name" id="modalHeroName"></h2>
-            </div>
-            <button class="modal-fav-btn" id="modalFavBtn" aria-label="Add to favorites">
-              <svg class="icon-star" viewBox="0 0 24 24">
-                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-              </svg>
-            </button>
-          </div>
-          <div class="modal-stats" id="modalStats"></div>
-          <div class="modal-roles" id="modalRoles"></div>
-        </div>
+        <div class="modal-stats" id="modalStats"></div>
+        <div class="modal-roles" id="modalRoles"></div>
       </div>
     </div>
-    <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+  </div>
+  <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
-    <script type="module" src="./src/main.js"></script>
-  </body>
+  <script type="module" src="./src/main.js"></script>
+</body>
+
 </html>
