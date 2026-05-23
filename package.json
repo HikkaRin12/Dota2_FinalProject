@@ -4,8 +4,12 @@
   "private": true,
   "type": "module",
   "description": "Dota 2 heroes project using OpenDota API",
-  "usedApis": [
-    "OpenDota API"
+  "keywords": [
+    "dota2",
+    "opendota",
+    "api",
+    "heroes",
+    "vite"
   ],
   "scripts": {
     "dev": "vite",
